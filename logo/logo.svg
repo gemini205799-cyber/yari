@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#2d8ef5"/>
+      <stop offset="100%" stop-color="#0a3fa8"/>
+    </radialGradient>
+
+    <!-- Ball gradient -->
+    <radialGradient id="ballGrad" cx="38%" cy="32%" r="55%">
+      <stop offset="0%" stop-color="#ffe566"/>
+      <stop offset="60%" stop-color="#f5c200"/>
+      <stop offset="100%" stop-color="#d4960a"/>
+    </radialGradient>
+
+    <!-- Crown gradient -->
+    <linearGradient id="crownGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffe566"/>
+      <stop offset="100%" stop-color="#d4830a"/>
+    </linearGradient>
+
+    <!-- Letter shadow filter -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="4" stdDeviation="3" flood-color="#00000055"/>
+    </filter>
+
+    <!-- 3D letter effect -->
+    <filter id="letterGlow">
+      <feDropShadow dx="0" dy="2" stdDeviation="1" flood-color="#00000088"/>
+    </filter>
+
+    <!-- Star glow -->
+    <filter id="starGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect x="0" y="0" width="512" height="512" rx="80" ry="80" fill="url(#bgGrad)"/>
+
+  <!-- Decorative circles in background -->
+  <circle cx="60" cy="60" r="40" fill="#ffffff08"/>
+  <circle cx="450" cy="80" r="55" fill="#ffffff06"/>
+  <circle cx="80" cy="420" r="50" fill="#ffffff07"/>
+  <circle cx="460" cy="430" r="45" fill="#ffffff08"/>
+  <circle cx="256" cy="256" r="200" fill="#ffffff04"/>
+
+  <!-- ===== STARS & SPARKLES ===== -->
+  <!-- Top left star -->
+  <g transform="translate(75, 95)" filter="url(#starGlow)">
+    <polygon points="0,-14 3.5,-5 13,-5 5.5,1.5 8.5,11 0,5.5 -8.5,11 -5.5,1.5 -13,-5 -3.5,-5" fill="#FFE566"/>
+  </g>
+  <!-- Top right star -->
+  <g transform="translate(440, 110)" filter="url(#starGlow)">
+    <polygon points="0,-12 3,-4.5 11,-4.5 4.5,1.5 7,9.5 0,4.5 -7,9.5 -4.5,1.5 -11,-4.5 -3,-4.5" fill="#FFE566"/>
+  </g>
+  <!-- Top center-right sparkle -->
+  <g transform="translate(380, 70)">
+    <polygon points="0,-10 2,-3 9,-3 4,1 6,8 0,4 -6,8 -4,1 -9,-3 -2,-3" fill="#ffffff" opacity="0.9"/>
+  </g>
+  <!-- Left sparkle -->
+  <g transform="translate(50, 220)">
+    <polygon points="0,-9 2,-2.5 8,-2.5 3.5,1 5.5,7.5 0,4 -5.5,7.5 -3.5,1 -8,-2.5 -2,-2.5" fill="#ffffff" opacity="0.7"/>
+  </g>
+  <!-- Right sparkle -->
+  <g transform="translate(468, 280)">
+    <polygon points="0,-10 2.5,-3 9,-3 4,1 6,8 0,4.5 -6,8 -4,1 -9,-3 -2.5,-3" fill="#FFE566" opacity="0.8"/>
+  </g>
+  <!-- Bottom left glitter -->
+  <g transform="translate(95, 380)">
+    <polygon points="0,-8 2,-2 7,-2 3,1 4.5,6.5 0,3.5 -4.5,6.5 -3,1 -7,-2 -2,-2" fill="#ffffff" opacity="0.6"/>
+  </g>
+  <!-- Bottom right glitter -->
+  <g transform="translate(420, 370)">
+    <polygon points="0,-9 2,-2.5 8,-2.5 3,1 5,7 0,4 -5,7 -3,1 -8,-2.5 -2,-2.5" fill="#FFE566" opacity="0.7"/>
+  </g>
+
+  <!-- Small dots sparkles -->
+  <circle cx="140" cy="75" r="4" fill="#ffffff" opacity="0.8"/>
+  <circle cx="370" cy="90" r="3" fill="#FFE566" opacity="0.9"/>
+  <circle cx="45" cy="310" r="3.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="475" cy="190" r="3" fill="#FFE566" opacity="0.7"/>
+  <circle cx="460" cy="340" r="4" fill="#ffffff" opacity="0.6"/>
+  <circle cx="130" cy="415" r="3" fill="#FFE566" opacity="0.7"/>
+
+  <!-- ===== CHARACTER - SMILEY BALL ===== -->
+  <!-- Ball body -->
+  <circle cx="256" cy="145" r="68" fill="url(#ballGrad)" filter="url(#shadow)"/>
+  <!-- Ball shine -->
+  <ellipse cx="235" cy="120" rx="20" ry="13" fill="#ffffffaa" transform="rotate(-20, 235, 120)"/>
+  <ellipse cx="228" cy="115" rx="9" ry="6" fill="#ffffffdd" transform="rotate(-20, 228, 115)"/>
+
+  <!-- Eyes -->
+  <ellipse cx="238" cy="140" rx="9" ry="11" fill="#1a1a1a"/>
+  <ellipse cx="274" cy="140" rx="9" ry="11" fill="#1a1a1a"/>
+  <!-- Eye shine -->
+  <circle cx="241" cy="136" r="3.5" fill="white"/>
+  <circle cx="277" cy="136" r="3.5" fill="white"/>
+
+  <!-- Smile -->
+  <path d="M 235,158 Q 256,178 277,158" stroke="#1a1a1a" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- Teeth -->
+  <path d="M 240,162 Q 256,175 272,162 Q 256,170 240,162Z" fill="white"/>
+
+  <!-- Cheeks -->
+  <ellipse cx="222" cy="158" rx="11" ry="7" fill="#FF9090" opacity="0.5"/>
+  <ellipse cx="290" cy="158" rx="11" ry="7" fill="#FF9090" opacity="0.5"/>
+
+  <!-- ===== CROWN ===== -->
+  <g transform="translate(256, 80)">
+    <!-- Crown base -->
+    <rect x="-38" y="2" width="76" height="20" rx="4" fill="url(#crownGrad)" stroke="#b8720a" stroke-width="1.5"/>
+    <!-- Crown points -->
+    <polygon points="-38,4 -30,-18 -20,0" fill="url(#crownGrad)" stroke="#b8720a" stroke-width="1.5"/>
+    <polygon points="-10,3 0,-22 10,3" fill="url(#crownGrad)" stroke="#b8720a" stroke-width="1.5"/>
+    <polygon points="20,0 30,-18 38,4" fill="url(#crownGrad)" stroke="#b8720a" stroke-width="1.5"/>
+    <!-- Crown gems -->
+    <circle cx="-29" cy="-5" r="5" fill="#FF4444"/>
+    <circle cx="0" cy="-8" r="6" fill="#44DDAA"/>
+    <circle cx="29" cy="-5" r="5" fill="#FF4444"/>
+    <!-- Crown gem shine -->
+    <circle cx="-30" cy="-7" r="2" fill="#ffffff88"/>
+    <circle cx="1" cy="-11" r="2.5" fill="#ffffff88"/>
+    <circle cx="28" cy="-7" r="2" fill="#ffffff88"/>
+  </g>
+
+  <!-- ===== YARI TEXT - 3D COLORFUL LETTERS ===== -->
+  <!-- Letter Y -->
+  <!-- Shadow/3D depth layer -->
+  <text x="64" y="358" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#8B0000" letter-spacing="2">Y</text>
+  <!-- Dark outline -->
+  <text x="62" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#440000" stroke="#220000" stroke-width="8" stroke-linejoin="round" letter-spacing="2">Y</text>
+  <!-- Main color -->
+  <text x="62" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#FF3333" stroke="#CC0000" stroke-width="3" stroke-linejoin="round" letter-spacing="2">Y</text>
+  <!-- Highlight -->
+  <text x="62" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="none" stroke="#FF9999" stroke-width="1.5" stroke-linejoin="round" letter-spacing="2">Y</text>
+
+  <!-- Letter A -->
+  <text x="162" y="358" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#006600" letter-spacing="2">A</text>
+  <text x="160" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#003300" stroke="#001100" stroke-width="8" stroke-linejoin="round" letter-spacing="2">A</text>
+  <text x="160" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#33CC33" stroke="#009900" stroke-width="3" stroke-linejoin="round" letter-spacing="2">A</text>
+  <text x="160" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="none" stroke="#99FF99" stroke-width="1.5" stroke-linejoin="round" letter-spacing="2">A</text>
+
+  <!-- Letter R -->
+  <text x="264" y="358" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#00008B" letter-spacing="2">R</text>
+  <text x="262" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#000033" stroke="#000011" stroke-width="8" stroke-linejoin="round" letter-spacing="2">R</text>
+  <text x="262" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#3399FF" stroke="#0055CC" stroke-width="3" stroke-linejoin="round" letter-spacing="2">R</text>
+  <text x="262" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="none" stroke="#99CCFF" stroke-width="1.5" stroke-linejoin="round" letter-spacing="2">R</text>
+
+  <!-- Letter I -->
+  <text x="374" y="358" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#999900" letter-spacing="2">I</text>
+  <text x="372" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#444400" stroke="#222200" stroke-width="8" stroke-linejoin="round" letter-spacing="2">I</text>
+  <text x="372" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="#FFD700" stroke="#CCAA00" stroke-width="3" stroke-linejoin="round" letter-spacing="2">I</text>
+  <text x="372" y="355" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="140" fill="none" stroke="#FFEE99" stroke-width="1.5" stroke-linejoin="round" letter-spacing="2">I</text>
+
+  <!-- Gold 3D base under letters -->
+  <rect x="55" y="362" width="400" height="16" rx="8" fill="#D4A017" opacity="0.85"/>
+  <rect x="55" y="374" width="400" height="8" rx="4" fill="#B8860B" opacity="0.6"/>
+
+  <!-- Shine on gold base -->
+  <rect x="70" y="363" width="380" height="5" rx="2.5" fill="#FFE566" opacity="0.5"/>
+</svg>

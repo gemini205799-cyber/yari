@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yari — تصدير الشعار</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: linear-gradient(135deg, #0a3fa8, #1a6fd4);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    padding: 30px 20px;
+    gap: 30px;
+  }
+  h1 {
+    color: #FFE566;
+    font-size: 2rem;
+    text-shadow: 0 2px 8px #00000066;
+  }
+  .logo-preview {
+    background: #ffffff15;
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 580px;
+  }
+  .logo-preview img {
+    border-radius: 16px;
+    width: 256px;
+    height: 256px;
+    box-shadow: 0 8px 32px #00000055;
+  }
+  .label {
+    color: #ffffffcc;
+    font-size: 0.95rem;
+  }
+  .btn-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #1a1a1a;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 32px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 16px #00000044, 0 2px 0 #b8720a;
+    transition: transform 0.1s, box-shadow 0.1s;
+    text-decoration: none;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px #00000055; }
+  .btn:active { transform: translateY(1px); }
+  .btn.secondary {
+    background: linear-gradient(135deg, #3399FF, #0055CC);
+    color: white;
+    box-shadow: 0 4px 16px #00000044, 0 2px 0 #003399;
+  }
+  canvas { display: none; }
+  .info {
+    color: #ffffffaa;
+    font-size: 0.85rem;
+    text-align: center;
+    max-width: 420px;
+    line-height: 1.6;
+  }
+  .sizes {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .size-badge {
+    background: #ffffff20;
+    color: #FFE566;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<h1>🎨 تصدير شعار Yari</h1>
+
+<div class="logo-preview">
+  <img id="svgPreview" src="logo.svg" alt="Yari Logo"/>
+  <span class="label">معاينة الشعار (256px)</span>
+</div>
+
+<div class="sizes">
+  <span class="size-badge">512 × 512 px</span>
+  <span class="size-badge">1024 × 1024 px</span>
+</div>
+
+<div class="btn-group">
+  <button class="btn" onclick="exportPNG(512)">⬇️ تحميل 512px</button>
+  <button class="btn secondary" onclick="exportPNG(1024)">⬇️ تحميل 1024px</button>
+</div>
+
+<p class="info">
+  يتم تصدير الشعار بتنسيق PNG شفاف عالي الجودة جاهز للاستخدام في متاجر التطبيقات.
+</p>
+
+<canvas id="canvas"></canvas>
+
+<script>
+  function exportPNG(size) {
+    const canvas = document.getElementById('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    const img = new Image();
+    img.onload = function() {
+      ctx.clearRect(0, 0, size, size);
+      ctx.drawImage(img, 0, 0, size, size);
+      canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `yari-logo-${size}px.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    };
+    // Use blob URL to avoid CORS issues
+    const svgText = document.getElementById('svgPreview').src;
+    fetch(svgText)
+      .then(r => r.blob())
+      .then(blob => {
+        img.src = URL.createObjectURL(blob);
+      })
+      .catch(() => {
+        // Fallback: load directly
+        img.src = 'logo.svg';
+      });
+  }
+</script>
+</body>
+</html>

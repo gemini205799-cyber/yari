@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Yari — غرفة الصوت</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a6fd4;
+    --primary-dark: #0a3fa8;
+    --primary-light: #2d8ef5;
+    --gold: #FFD700;
+    --bg: #0d1b3e;
+    --card: #1a2748;
+    --card2: #1e2f55;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+  .app {
+    width: 100%;
+    max-width: 390px;
+    min-height: 100vh;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.4s ease-out;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== TOP BAR ===== */
+  .topbar {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0 0 24px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .topbar::before {
+    content: '';
+    position: absolute;
+    top: -25px; right: -25px;
+    width: 80px; height: 80px;
+    background: #ffffff10;
+    border-radius: 50%;
+  }
+  .back-btn {
+    width: 40px; height: 40px;
+    background: #ffffff20;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .room-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    padding: 0 10px;
+  }
+  .room-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .room-title {
+    color: white;
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .lock-icon { font-size: 0.95rem; }
+  .topic-badge {
+    background: rgba(255,255,255,0.18);
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 3px 12px;
+  }
+  .topbar-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .action-btn {
+    width: 38px; height: 38px;
+    background: #ffffff15;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .online-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #00cc6622;
+    border: 1px solid #00cc66;
+    border-radius: 20px;
+    padding: 3px 10px;
+    color: #00cc66;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+  .pill-dot {
+    width: 6px; height: 6px;
+    background: #00cc66;
+    border-radius: 50%;
+    animation: blink 1.2s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  /* ===== SPEAKERS SECTION ===== */
+  .speakers-section {
+    padding: 20px 16px 12px;
+    flex: 1;
+  }
+  .section-label {
+    color: #8899bb;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .speaker-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+  .avatar-wrap {
+    position: relative;
+    width: 72px;
+    height: 72px;
+  }
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    font-size: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    background: var(--card2);
+    border: 3px solid #2a3a60;
+  }
+  .avatar.active-speaker {
+    border-color: #00cc66;
+    animation: activePulse 1.5s ease-in-out infinite;
+  }
+  @keyframes activePulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(0,204,102,0.5), 0 0 0 0 rgba(0,204,102,0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(0,204,102,0.25), 0 0 0 16px rgba(0,204,102,0.1); }
+  }
+  .wave-ring {
+    position: absolute;
+    top: -6px; left: -6px;
+    width: 84px; height: 84px;
+    border-radius: 50%;
+    border: 3px solid #00cc66;
+    opacity: 0;
+    animation: waveRing 1.5s ease-out infinite;
+  }
+  .wave-ring:nth-child(2) { animation-delay: 0.5s; }
+  @keyframes waveRing {
+    0% { transform: scale(0.8); opacity: 0.8; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+  .mic-icon {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    z-index: 3;
+    border: 2px solid var(--bg);
+  }
+  .mic-on { background: #00cc66; }
+  .mic-off { background: #FF4444; }
+  .speaker-name {
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    max-width: 72px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .speaker-role {
+    color: var(--gold);
+    font-size: 0.65rem;
+    font-weight: 500;
+  }
+  .empty-slot .avatar {
+    border: 2px dashed #3a4a6a;
+    background: #151f3a;
+    color: #3a4a6a;
+    font-size: 1.5rem;
+  }
+  .empty-slot .speaker-name { color: #3a4a6a; }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 4px 0 16px;
+  }
+  .divider-line { flex: 1; height: 1px; background: #1e2f55; }
+  .divider-label { color: #5566aa; font-size: 0.72rem; }
+
+  /* AUDIENCE ROW */
+  .audience-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .audience-avatar {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card2);
+    border: 2px solid #2a3a60;
+    cursor: pointer;
+  }
+
+  /* ===== GIFTS PANEL ===== */
+  .gifts-panel {
+    background: var(--card);
+    border-radius: 20px 20px 0 0;
+    padding: 14px 16px;
+  }
+  .gifts-panel-title {
+    color: #8899bb;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .gifts-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+    margin-bottom: 14px;
+  }
+  .gifts-scroll::-webkit-scrollbar { display: none; }
+  .gift-item {
+    min-width: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 8px 6px;
+    border-radius: 14px;
+    background: var(--card2);
+    transition: transform 0.15s, background 0.15s;
+    flex-shrink: 0;
+  }
+  .gift-item:hover { background: #253058; transform: scale(1.05); }
+  .gift-item.selected { background: #1a5090; border: 2px solid var(--primary-light); }
+  .gift-emoji { font-size: 1.8rem; }
+  .gift-name { color: #aabbcc; font-size: 0.65rem; font-weight: 600; }
+  .gift-price {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: var(--gold);
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  /* ===== ACTION BAR ===== */
+  .action-bar {
+    background: var(--card);
+    padding: 14px 20px 28px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #1e2f55;
+  }
+  .round-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+  .round-btn-icon {
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    transition: transform 0.15s;
+  }
+  .round-btn:active .round-btn-icon { transform: scale(0.92); }
+  .btn-mic { background: linear-gradient(135deg, #00cc66, #009944); box-shadow: 0 4px 16px rgba(0,204,102,0.4); }
+  .btn-gift { background: linear-gradient(135deg, #FF6B9D, #c2185b); box-shadow: 0 4px 16px rgba(255,107,157,0.4); }
+  .btn-leave { background: linear-gradient(135deg, #FF4444, #cc0000); box-shadow: 0 4px 16px rgba(255,68,68,0.4); }
+  .round-btn-label { color: #8899bb; font-size: 0.7rem; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a class="back-btn" href="index.html">←</a>
+    <div class="room-info">
+      <div class="room-title-row">
+        <span class="room-title">غرفة الموسيقى 🎵</span>
+        <span class="lock-icon">🔒</span>
+      </div>
+      <span class="topic-badge"># موسيقى عربية</span>
+    </div>
+    <div class="topbar-actions">
+      <div class="online-pill">
+        <span class="pill-dot"></span>
+        <span>142</span>
+      </div>
+      <div class="action-btn">⋯</div>
+    </div>
+  </div>
+
+  <!-- SPEAKERS SECTION -->
+  <div class="speakers-section">
+    <div class="section-label">🎙️ المتحدثون</div>
+
+    <div class="speakers-grid">
+
+      <!-- Active Speaker -->
+      <div class="speaker-slot">
+        <div class="avatar-wrap">
+          <div class="wave-ring"></div>
+          <div class="wave-ring"></div>
+          <div class="avatar active-speaker">👩‍🎤</div>
+          <span class="mic-icon mic-on">🎤</span>
+        </div>
+        <span class="speaker-name">سارة النجار</span>
+        <span class="speaker-role">⭐ المضيف</span>
+      </div>
+
+      <div class="speaker-slot">
+        <div class="avatar-wrap">
+          <div class="avatar">👨</div>
+          <span class="mic-icon mic-on">🎤</span>
+        </div>
+        <span class="speaker-name">محمد علي</span>
+        <span class="speaker-role">متحدث</span>
+      </div>
+
+      <div class="speaker-slot">
+        <div class="avatar-wrap">
+          <div class="avatar">👩</div>
+          <span class="mic-icon mic-off">🔇</span>
+        </div>
+        <span class="speaker-name">ريم صالح</span>
+        <span class="speaker-role">متحدثة</span>
+      </div>
+
+      <div class="speaker-slot">
+        <div class="avatar-wrap">
+          <div class="avatar">👴</div>
+          <span class="mic-icon mic-on">🎤</span>
+        </div>
+        <span class="speaker-name">أبو عمر</span>
+        <span class="speaker-role">متحدث</span>
+      </div>
+
+      <div class="speaker-slot">
+        <div class="avatar-wrap">
+          <div class="avatar">👧</div>
+          <span class="mic-icon mic-off">🔇</span>
+        </div>
+        <span class="speaker-name">دانة</span>
+        <span class="speaker-role">متحدثة</span>
+      </div>
+
+      <div class="speaker-slot empty-slot">
+        <div class="avatar-wrap">
+          <div class="avatar">+</div>
+        </div>
+        <span class="speaker-name">مقعد فارغ</span>
+      </div>
+
+    </div>
+
+    <!-- AUDIENCE -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-label">👥 الجمهور (137)</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="audience-row">
+      <div class="audience-avatar">👦</div>
+      <div class="audience-avatar">👩‍💼</div>
+      <div class="audience-avatar">🧑</div>
+      <div class="audience-avatar">👩‍🦱</div>
+      <div class="audience-avatar">🧔</div>
+      <div class="audience-avatar">👱‍♀️</div>
+      <div class="audience-avatar" style="background:#1a2748; border-style:dashed; color:#5566aa; font-size:0.8rem; font-weight:700;">+131</div>
+    </div>
+  </div>
+
+  <!-- GIFTS PANEL -->
+  <div class="gifts-panel">
+    <div class="gifts-panel-title">
+      <span>🎁</span>
+      <span>أرسل هدية للمضيف</span>
+    </div>
+    <div class="gifts-scroll">
+      <div class="gift-item selected">
+        <span class="gift-emoji">🌹</span>
+        <span class="gift-name">وردة</span>
+        <span class="gift-price">🪙 10</span>
+      </div>
+      <div class="gift-item">
+        <span class="gift-emoji">💎</span>
+        <span class="gift-name">ماس</span>
+        <span class="gift-price">🪙 500</span>
+      </div>
+      <div class="gift-item">
+        <span class="gift-emoji">👑</span>
+        <span class="gift-name">تاج</span>
+        <span class="gift-price">🪙 1000</span>
+      </div>
+      <div class="gift-item">
+        <span class="gift-emoji">🚀</span>
+        <span class="gift-name">صاروخ</span>
+        <span class="gift-price">🪙 2000</span>
+      </div>
+      <div class="gift-item">
+        <span class="gift-emoji">🎂</span>
+        <span class="gift-name">تورتة</span>
+        <span class="gift-price">🪙 50</span>
+      </div>
+      <div class="gift-item">
+        <span class="gift-emoji">🏆</span>
+        <span class="gift-name">كأس</span>
+        <span class="gift-price">🪙 300</span>
+      </div>
+      <div class="gift-item">
+        <span class="gift-emoji">⭐</span>
+        <span class="gift-name">نجمة</span>
+        <span class="gift-price">🪙 25</span>
+      </div>
+      <div class="gift-item">
+        <span class="gift-emoji">🎵</span>
+        <span class="gift-name">موسيقى</span>
+        <span class="gift-price">🪙 15</span>
+      </div>
+    </div>
+
+    <!-- ACTION BAR -->
+    <div class="action-bar" style="margin: 0 -16px; padding: 14px 20px 20px; border-radius: 0; border-top: 1px solid #1e2f55; background: transparent;">
+      <div class="round-btn">
+        <div class="round-btn-icon btn-mic">🎤</div>
+        <span class="round-btn-label">ميكروفون</span>
+      </div>
+      <div class="round-btn">
+        <div class="round-btn-icon btn-gift">🎁</div>
+        <span class="round-btn-label">إرسال هدية</span>
+      </div>
+      <div class="round-btn">
+        <div class="round-btn-icon btn-leave">🚪</div>
+        <span class="round-btn-label">مغادرة</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

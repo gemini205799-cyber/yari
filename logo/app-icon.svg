@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#2d8ef5"/>
+      <stop offset="100%" stop-color="#0a3fa8"/>
+    </radialGradient>
+    <radialGradient id="ballGrad" cx="38%" cy="32%" r="55%">
+      <stop offset="0%" stop-color="#ffe566"/>
+      <stop offset="60%" stop-color="#f5c200"/>
+      <stop offset="100%" stop-color="#d4960a"/>
+    </radialGradient>
+    <linearGradient id="crownGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffe566"/>
+      <stop offset="100%" stop-color="#d4830a"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="5" dy="8" stdDeviation="6" flood-color="#00000055"/>
+    </filter>
+    <filter id="starGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1024" height="1024" rx="160" ry="160" fill="url(#bgGrad)"/>
+
+  <!-- Background decorative circles -->
+  <circle cx="120" cy="120" r="80" fill="#ffffff08"/>
+  <circle cx="900" cy="160" r="110" fill="#ffffff06"/>
+  <circle cx="160" cy="840" r="100" fill="#ffffff07"/>
+  <circle cx="920" cy="860" r="90" fill="#ffffff08"/>
+  <circle cx="512" cy="512" r="400" fill="#ffffff03"/>
+
+  <!-- Stars & Sparkles -->
+  <g transform="translate(150, 190)" filter="url(#starGlow)">
+    <polygon points="0,-28 7,-10 26,-10 11,3 16,22 0,11 -16,22 -11,3 -26,-10 -7,-10" fill="#FFE566"/>
+  </g>
+  <g transform="translate(880, 220)" filter="url(#starGlow)">
+    <polygon points="0,-24 6,-8 22,-8 9,2.5 14,19 0,9 -14,19 -9,2.5 -22,-8 -6,-8" fill="#FFE566"/>
+  </g>
+  <g transform="translate(760, 140)">
+    <polygon points="0,-20 5,-6 18,-6 8,2 12,16 0,8 -12,16 -8,2 -18,-6 -5,-6" fill="#ffffff" opacity="0.9"/>
+  </g>
+  <g transform="translate(100, 440)">
+    <polygon points="0,-18 4.5,-5 16,-5 7,2 9.5,15 0,8 -9.5,15 -7,2 -16,-5 -4.5,-5" fill="#ffffff" opacity="0.7"/>
+  </g>
+  <g transform="translate(936, 560)">
+    <polygon points="0,-20 5,-6 18,-6 8,2 12,16 0,9 -12,16 -8,2 -18,-6 -5,-6" fill="#FFE566" opacity="0.8"/>
+  </g>
+  <g transform="translate(190, 760)">
+    <polygon points="0,-16 4,-4.5 14,-4.5 6,1.5 9,13 0,7 -9,13 -6,1.5 -14,-4.5 -4,-4.5" fill="#ffffff" opacity="0.6"/>
+  </g>
+  <g transform="translate(840, 740)">
+    <polygon points="0,-18 4.5,-5 16,-5 7,2 9.5,15 0,8 -9.5,15 -7,2 -16,-5 -4.5,-5" fill="#FFE566" opacity="0.7"/>
+  </g>
+
+  <!-- Small dot sparkles -->
+  <circle cx="280" cy="150" r="8" fill="#ffffff" opacity="0.8"/>
+  <circle cx="740" cy="180" r="6" fill="#FFE566" opacity="0.9"/>
+  <circle cx="90" cy="620" r="7" fill="#ffffff" opacity="0.6"/>
+  <circle cx="950" cy="380" r="6" fill="#FFE566" opacity="0.7"/>
+  <circle cx="920" cy="680" r="8" fill="#ffffff" opacity="0.6"/>
+  <circle cx="260" cy="830" r="6" fill="#FFE566" opacity="0.7"/>
+
+  <!-- ===== CHARACTER ===== -->
+  <!-- Ball body -->
+  <circle cx="512" cy="290" r="136" fill="url(#ballGrad)" filter="url(#shadow)"/>
+  <!-- Shine -->
+  <ellipse cx="470" cy="238" rx="40" ry="26" fill="#ffffffaa" transform="rotate(-20, 470, 238)"/>
+  <ellipse cx="454" cy="228" rx="18" ry="12" fill="#ffffffdd" transform="rotate(-20, 454, 228)"/>
+
+  <!-- Eyes -->
+  <ellipse cx="476" cy="280" rx="18" ry="22" fill="#1a1a1a"/>
+  <ellipse cx="548" cy="280" rx="18" ry="22" fill="#1a1a1a"/>
+  <circle cx="482" cy="272" r="7" fill="white"/>
+  <circle cx="554" cy="272" r="7" fill="white"/>
+
+  <!-- Smile -->
+  <path d="M 470,316 Q 512,356 554,316" stroke="#1a1a1a" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M 479,322 Q 512,348 545,322 Q 512,342 479,322Z" fill="white"/>
+
+  <!-- Cheeks -->
+  <ellipse cx="443" cy="316" rx="22" ry="14" fill="#FF9090" opacity="0.5"/>
+  <ellipse cx="581" cy="316" rx="22" ry="14" fill="#FF9090" opacity="0.5"/>
+
+  <!-- ===== CROWN ===== -->
+  <g transform="translate(512, 160)">
+    <rect x="-76" y="4" width="152" height="40" rx="8" fill="url(#crownGrad)" stroke="#b8720a" stroke-width="3"/>
+    <polygon points="-76,8 -60,-36 -40,0" fill="url(#crownGrad)" stroke="#b8720a" stroke-width="3"/>
+    <polygon points="-20,6 0,-44 20,6" fill="url(#crownGrad)" stroke="#b8720a" stroke-width="3"/>
+    <polygon points="40,0 60,-36 76,8" fill="url(#crownGrad)" stroke="#b8720a" stroke-width="3"/>
+    <circle cx="-58" cy="-10" r="10" fill="#FF4444"/>
+    <circle cx="0" cy="-16" r="12" fill="#44DDAA"/>
+    <circle cx="58" cy="-10" r="10" fill="#FF4444"/>
+    <circle cx="-60" cy="-14" r="4" fill="#ffffff88"/>
+    <circle cx="2" cy="-22" r="5" fill="#ffffff88"/>
+    <circle cx="56" cy="-14" r="4" fill="#ffffff88"/>
+  </g>
+
+  <!-- ===== YARI TEXT ===== -->
+  <!-- Letter Y -->
+  <text x="128" y="716" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#8B0000" letter-spacing="4">Y</text>
+  <text x="124" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#440000" stroke="#220000" stroke-width="16" stroke-linejoin="round" letter-spacing="4">Y</text>
+  <text x="124" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#FF3333" stroke="#CC0000" stroke-width="6" stroke-linejoin="round" letter-spacing="4">Y</text>
+  <text x="124" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="none" stroke="#FF9999" stroke-width="3" stroke-linejoin="round" letter-spacing="4">Y</text>
+
+  <!-- Letter A -->
+  <text x="324" y="716" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#006600" letter-spacing="4">A</text>
+  <text x="320" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#003300" stroke="#001100" stroke-width="16" stroke-linejoin="round" letter-spacing="4">A</text>
+  <text x="320" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#33CC33" stroke="#009900" stroke-width="6" stroke-linejoin="round" letter-spacing="4">A</text>
+  <text x="320" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="none" stroke="#99FF99" stroke-width="3" stroke-linejoin="round" letter-spacing="4">A</text>
+
+  <!-- Letter R -->
+  <text x="528" y="716" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#00008B" letter-spacing="4">R</text>
+  <text x="524" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#000033" stroke="#000011" stroke-width="16" stroke-linejoin="round" letter-spacing="4">R</text>
+  <text x="524" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#3399FF" stroke="#0055CC" stroke-width="6" stroke-linejoin="round" letter-spacing="4">R</text>
+  <text x="524" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="none" stroke="#99CCFF" stroke-width="3" stroke-linejoin="round" letter-spacing="4">R</text>
+
+  <!-- Letter I -->
+  <text x="748" y="716" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#999900" letter-spacing="4">I</text>
+  <text x="744" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#444400" stroke="#222200" stroke-width="16" stroke-linejoin="round" letter-spacing="4">I</text>
+  <text x="744" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="#FFD700" stroke="#CCAA00" stroke-width="6" stroke-linejoin="round" letter-spacing="4">I</text>
+  <text x="744" y="710" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="280" fill="none" stroke="#FFEE99" stroke-width="3" stroke-linejoin="round" letter-spacing="4">I</text>
+
+  <!-- Gold base under letters -->
+  <rect x="110" y="724" width="800" height="32" rx="16" fill="#D4A017" opacity="0.85"/>
+  <rect x="110" y="748" width="800" height="16" rx="8" fill="#B8860B" opacity="0.6"/>
+  <rect x="140" y="726" width="760" height="10" rx="5" fill="#FFE566" opacity="0.5"/>
+</svg>
