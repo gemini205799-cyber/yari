@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Yari — الشاشة الرئيسية</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a6fd4;
+    --primary-dark: #0a3fa8;
+    --primary-light: #2d8ef5;
+    --gold: #FFD700;
+    --gold-dark: #D4A017;
+    --white: #ffffff;
+    --bg: #f0f4ff;
+    --card-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+  .app {
+    width: 100%;
+    max-width: 390px;
+    min-height: 100vh;
+    background: var(--bg);
+    position: relative;
+    padding-bottom: 80px;
+    animation: slideIn 0.4s ease-out;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+    padding: 16px 20px 24px;
+    border-radius: 0 0 30px 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    background: #ffffff12;
+    border-radius: 50%;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    width: 80px;
+    height: 80px;
+    background: #ffffff0a;
+    border-radius: 50%;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .coins {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #ffffff20;
+    border-radius: 20px;
+    padding: 6px 14px;
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .coins-icon { font-size: 1.1rem; }
+  .notif-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ffffff20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+  }
+  .notif-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 9px;
+    height: 9px;
+    background: #FF4444;
+    border-radius: 50%;
+    border: 2px solid var(--primary-dark);
+  }
+  .logo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .logo-svg {
+    width: 100px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-text {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    letter-spacing: 3px;
+    filter: drop-shadow(0 2px 4px #00000055);
+    display: flex;
+    gap: 2px;
+  }
+  .logo-y { color: #FF4444; -webkit-text-stroke: 1.5px #990000; }
+  .logo-a { color: #33CC33; -webkit-text-stroke: 1.5px #006600; }
+  .logo-r { color: #3399FF; -webkit-text-stroke: 1.5px #005599; }
+  .logo-i { color: #FFD700; -webkit-text-stroke: 1.5px #997700; }
+  .logo-tagline {
+    color: #ffffffbb;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  /* ===== WELCOME BANNER ===== */
+  .welcome-banner {
+    margin: 16px;
+    background: linear-gradient(135deg, #FF6B9D, #FF8E53, #FFC107);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: var(--card-shadow);
+    animation: pulse-bg 3s ease-in-out infinite;
+  }
+  @keyframes pulse-bg {
+    0%, 100% { box-shadow: var(--card-shadow); }
+    50% { box-shadow: 0 12px 32px rgba(255, 107, 157, 0.35); }
+  }
+  .welcome-emoji { font-size: 2.5rem; }
+  .welcome-text h2 {
+    color: white;
+    font-weight: 800;
+    font-size: 1.15rem;
+    text-shadow: 0 1px 4px #00000033;
+  }
+  .welcome-text p {
+    color: #ffffffdd;
+    font-size: 0.83rem;
+    margin-top: 3px;
+  }
+
+  /* ===== SECTION ===== */
+  .section {
+    padding: 0 16px;
+    margin-top: 20px;
+  }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #1a2340;
+  }
+  .see-all {
+    color: var(--primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* ===== ROOM CARDS GRID ===== */
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .room-card {
+    border-radius: var(--radius);
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: var(--card-shadow);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .room-card::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 70px;
+    height: 70px;
+    background: #ffffff18;
+    border-radius: 50%;
+  }
+  .room-card:active { transform: scale(0.97); }
+  .room-music { background: linear-gradient(135deg, #FF6B9D, #c2185b); }
+  .room-sports { background: linear-gradient(135deg, #43A047, #1B5E20); }
+  .room-love { background: linear-gradient(135deg, #E91E63, #880E4F); }
+  .room-games { background: linear-gradient(135deg, #7C4DFF, #311B92); }
+
+  .room-icon { font-size: 2.2rem; }
+  .room-name {
+    color: white;
+    font-weight: 800;
+    font-size: 1rem;
+    text-shadow: 0 1px 4px #00000033;
+  }
+  .room-count {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #ffffffcc;
+    font-size: 0.78rem;
+  }
+  .online-dot {
+    width: 7px;
+    height: 7px;
+    background: #7FFF00;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .join-btn {
+    background: rgba(255,255,255,0.22);
+    color: white;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    padding: 7px 0;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background 0.2s;
+    animation: pulse-btn 2s ease-in-out infinite;
+    width: 100%;
+  }
+  .join-btn:hover { background: rgba(255,255,255,0.35); }
+  @keyframes pulse-btn {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+  }
+
+  /* ===== LIVE NOW SECTION ===== */
+  .live-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+  .live-scroll::-webkit-scrollbar { display: none; }
+  .live-card {
+    min-width: 140px;
+    background: white;
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .live-card:active { transform: scale(0.96); }
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #FF3333;
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 2px 8px;
+    width: fit-content;
+  }
+  .live-dot { width: 6px; height: 6px; background: white; border-radius: 50%; animation: blink 1s infinite; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  .live-card-host {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .host-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f4ff;
+    flex-shrink: 0;
+  }
+  .host-info .host-name {
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: #1a2340;
+  }
+  .host-info .host-topic {
+    font-size: 0.72rem;
+    color: #666;
+  }
+  .live-count {
+    font-size: 0.75rem;
+    color: #999;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 390px;
+    background: white;
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.12);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0 16px;
+    z-index: 100;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 14px;
+    transition: background 0.2s;
+  }
+  .nav-item.active .nav-icon { color: var(--primary); }
+  .nav-item.active .nav-label { color: var(--primary); font-weight: 700; }
+  .nav-item.active { background: #e8f0fd; }
+  .nav-icon { font-size: 1.4rem; }
+  .nav-label { font-size: 0.68rem; color: #999; font-weight: 500; }
+
+  /* ===== FAB ===== */
+  .fab {
+    position: fixed;
+    bottom: 76px;
+    left: 50%;
+    transform: translateX(-50%) translateX(-140px);
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--gold), #FFA500);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 0 4px 16px rgba(255, 165, 0, 0.5);
+    cursor: pointer;
+    z-index: 101;
+    transition: transform 0.2s;
+    color: white;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .fab:hover { transform: translateX(calc(-50% - 140px)) scale(1.1); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="coins">
+        <span class="coins-icon">🪙</span>
+        <span>4,250</span>
+      </div>
+      <div class="logo-wrap">
+        <div class="logo-text">
+          <span class="logo-y">Y</span><span class="logo-a">A</span><span class="logo-r">R</span><span class="logo-i">I</span>
+        </div>
+        <span class="logo-tagline">تواصل • مرح • أصدقاء</span>
+      </div>
+      <div class="notif-btn">
+        🔔
+        <span class="notif-dot"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WELCOME BANNER -->
+  <div class="welcome-banner">
+    <span class="welcome-emoji">👋</span>
+    <div class="welcome-text">
+      <h2>أهلاً بك في Yari!</h2>
+      <p>انضم لغرفة الآن وتعرّف على أصدقاء جدد</p>
+    </div>
+  </div>
+
+  <!-- ROOMS SECTION -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">🎙️ الغرف الرئيسية</span>
+      <span class="see-all">عرض الكل ›</span>
+    </div>
+    <div class="rooms-grid">
+
+      <div class="room-card room-music">
+        <span class="room-icon">🎵</span>
+        <span class="room-name">موسيقى</span>
+        <div class="room-count">
+          <span class="online-dot"></span>
+          <span>247 شخص</span>
+        </div>
+        <button class="join-btn">انضم الآن</button>
+      </div>
+
+      <div class="room-card room-sports">
+        <span class="room-icon">⚽</span>
+        <span class="room-name">رياضة</span>
+        <div class="room-count">
+          <span class="online-dot"></span>
+          <span>183 شخص</span>
+        </div>
+        <button class="join-btn">انضم الآن</button>
+      </div>
+
+      <div class="room-card room-love">
+        <span class="room-icon">💘</span>
+        <span class="room-name">حب وصداقة</span>
+        <div class="room-count">
+          <span class="online-dot"></span>
+          <span>319 شخص</span>
+        </div>
+        <button class="join-btn">انضم الآن</button>
+      </div>
+
+      <div class="room-card room-games">
+        <span class="room-icon">🎮</span>
+        <span class="room-name">ألعاب</span>
+        <div class="room-count">
+          <span class="online-dot"></span>
+          <span>156 شخص</span>
+        </div>
+        <button class="join-btn">انضم الآن</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LIVE NOW SECTION -->
+  <div class="section" style="margin-bottom: 20px;">
+    <div class="section-header">
+      <span class="section-title">🔴 الآن مباشر</span>
+      <span class="see-all">عرض الكل ›</span>
+    </div>
+    <div class="live-scroll">
+
+      <div class="live-card">
+        <span class="live-badge"><span class="live-dot"></span>مباشر</span>
+        <div class="live-card-host">
+          <span class="host-avatar">👩‍🎤</span>
+          <div class="host-info">
+            <div class="host-name">سارة النجار</div>
+            <div class="host-topic">موسيقى عربية 🎶</div>
+          </div>
+        </div>
+        <div class="live-count">👥 142 مستمع</div>
+      </div>
+
+      <div class="live-card">
+        <span class="live-badge"><span class="live-dot"></span>مباشر</span>
+        <div class="live-card-host">
+          <span class="host-avatar">👨‍💼</span>
+          <div class="host-info">
+            <div class="host-name">خالد الأمين</div>
+            <div class="host-topic">كرة القدم ⚽</div>
+          </div>
+        </div>
+        <div class="live-count">👥 98 مستمع</div>
+      </div>
+
+      <div class="live-card">
+        <span class="live-badge"><span class="live-dot"></span>مباشر</span>
+        <div class="live-card-host">
+          <span class="host-avatar">👩</span>
+          <div class="host-info">
+            <div class="host-name">ليلى رشيد</div>
+            <div class="host-topic">قصص ورومانسية 💕</div>
+          </div>
+        </div>
+        <div class="live-count">👥 215 مستمع</div>
+      </div>
+
+      <div class="live-card">
+        <span class="live-badge"><span class="live-dot"></span>مباشر</span>
+        <div class="live-card-host">
+          <span class="host-avatar">👦</span>
+          <div class="host-info">
+            <div class="host-name">أحمد الفارسي</div>
+            <div class="host-topic">ألعاب فيديو 🎮</div>
+          </div>
+        </div>
+        <div class="live-count">👥 77 مستمع</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- FAB -->
+<div class="fab" title="إنشاء غرفة جديدة">+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="nav-item active">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">الرئيسية</span>
+  </div>
+  <div class="nav-item">
+    <span class="nav-icon">🎙️</span>
+    <span class="nav-label">الغرف</span>
+  </div>
+  <div class="nav-item">
+    <span class="nav-icon">🎁</span>
+    <span class="nav-label">الهدايا</span>
+  </div>
+  <div class="nav-item">
+    <span class="nav-icon">👥</span>
+    <span class="nav-label">الأصدقاء</span>
+  </div>
+  <div class="nav-item">
+    <span class="nav-icon">👤</span>
+    <span class="nav-label">ملفي</span>
+  </div>
+</nav>
+
+</body>
+</html>
