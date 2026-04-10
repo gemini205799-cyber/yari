@@ -1,0 +1,170 @@
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: users
+// Document ID: {userId}
+// Fields:
+//   - uid: string (required, immutable)
+//   - name: string (required, size 1-50)
+//   - avatar: string (optional, URL)
+//   - level: number (required, positive)
+//   - coins_balance: number (required, positive)
+//   - bio: string (optional, size 0-200)
+//   - role: string (required, enum: ['admin', 'user'])
+//   - createdAt: timestamp (required, immutable)
+//
+// Collection: rooms
+// Document ID: {roomId}
+// Fields:
+//   - roomId: string (required, immutable)
+//   - title: string (required, size 1-100)
+//   - ownerId: string (required, immutable)
+//   - topic: string (required)
+//   - type: string (required, enum: ['public', 'followers', 'private'])
+//   - password: string (optional)
+//   - memberCount: number (required)
+//   - activeSpeakers: list (required, max 20)
+//   - createdAt: timestamp (required, immutable)
+//
+// Collection: transactions
+// Document ID: {transactionId}
+// Fields:
+//   - senderId: string (required, immutable)
+//   - receiverId: string (required, immutable)
+//   - giftId: string (optional)
+//   - amount: number (required, positive)
+//   - roomId: string (required)
+//   - timestamp: timestamp (required, immutable)
+//
+// ===============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+         (request.auth.token.email == "gemini205799@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidUrl(url) {
+      return url is string && (url.matches("^https://.*") || url.matches("^http://.*"));
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUser(data) {
+      return hasOnlyAllowedFields(['uid', 'name', 'avatar', 'level', 'coins_balance', 'bio', 'role', 'createdAt']) &&
+             data.uid == request.auth.uid &&
+             data.name is string && data.name.size() >= 1 && data.name.size() <= 50 &&
+             (!('avatar' in data) || isValidUrl(data.avatar)) &&
+             data.level is number && data.level >= 0 &&
+             data.coins_balance is number && data.coins_balance >= 0 &&
+             (!('bio' in data) || (data.bio is string && data.bio.size() <= 200)) &&
+             data.role in ['admin', 'user'] &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidRoom(data) {
+      return hasOnlyAllowedFields(['roomId', 'title', 'ownerId', 'topic', 'type', 'avatar', 'level', 'country', 'desc', 'password', 'memberCount', 'activeSpeakers', 'createdAt']) &&
+             (!('roomId' in data) || data.roomId is string) &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 100 &&
+             (data.ownerId == request.auth.uid || isAdmin()) &&
+             data.topic is string &&
+             data.type in ['public', 'followers', 'private'] &&
+             (!('avatar' in data) || isValidUrl(data.avatar)) &&
+             (!('level' in data) || data.level is number) &&
+             (!('country' in data) || data.country is string) &&
+             (!('desc' in data) || data.desc is string) &&
+             (!('password' in data) || data.password is string) &&
+             data.memberCount is number &&
+             data.activeSpeakers is list && data.activeSpeakers.size() <= 20 &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidTransaction(data) {
+      return hasOnlyAllowedFields(['senderId', 'receiverId', 'giftId', 'amount', 'roomId', 'timestamp']) &&
+             data.senderId == request.auth.uid &&
+             data.receiverId is string &&
+             (!('giftId' in data) || data.giftId is string) &&
+             data.amount is number && data.amount > 0 &&
+             data.roomId is string &&
+             data.timestamp is timestamp;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      // Users can read their own profile. For public profiles, we'd need a separate collection or denormalization.
+      // Instructions say "No Mixed Content", so we limit read to owner.
+      allow read: if isOwner(userId) || isAdmin();
+      
+      allow create: if isAuthenticated() && isValidUser(request.resource.data) && 
+                      (request.resource.data.role == 'user' || isAdmin());
+      
+      allow update: if isAuthenticated() && isOwner(userId) && isValidUser(request.resource.data) &&
+                      request.resource.data.role == resource.data.role &&
+                      request.resource.data.createdAt == resource.data.createdAt;
+    }
+
+    match /rooms/{roomId} {
+      allow read: if isAuthenticated();
+      
+      allow create: if isAuthenticated() && isValidRoom(request.resource.data);
+      
+      allow update: if isAuthenticated() && 
+                      (
+                        // Owner can update everything except immutable fields
+                        (resource.data.ownerId == request.auth.uid && isValidRoom(request.resource.data) && 
+                         request.resource.data.ownerId == resource.data.ownerId &&
+                         request.resource.data.createdAt == resource.data.createdAt) ||
+                        // Others can only update memberCount or activeSpeakers (e.g. joining/leaving)
+                        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberCount', 'activeSpeakers']) &&
+                         request.resource.data.memberCount is number &&
+                         request.resource.data.activeSpeakers is list)
+                      );
+      
+      allow delete: if isAuthenticated() && (resource.data.ownerId == request.auth.uid || isAdmin());
+    }
+
+    match /transactions/{transactionId} {
+      allow read: if isAuthenticated() && (resource.data.senderId == request.auth.uid || resource.data.receiverId == request.auth.uid || isAdmin());
+      
+      allow create: if isAuthenticated() && isValidTransaction(request.resource.data);
+      
+      // Transactions are immutable
+      allow update, delete: if false;
+    }
+
+    // Default deny
+    match /{path=**} {
+      allow read, write: if false;
+    }
+  }
+}

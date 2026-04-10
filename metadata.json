@@ -1,0 +1,5 @@
+{
+  "name": "MEZO - Social Voice Chat",
+  "description": "A vibrant social voice chat application with a playful cartoon aesthetic, featuring real-time rooms, gifts, and achievements.",
+  "requestFramePermissions": ["microphone"]
+}

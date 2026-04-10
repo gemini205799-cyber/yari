@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEZO Logo Exporter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f0f4ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            color: #1a1a2e;
+        }
+        h1 { font-family: 'Fredoka One', sans-serif; color: #1a6fd4; margin-bottom: 30px; }
+        .logo-container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .buttons { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            background: #1a6fd4;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            font-family: 'Tajawal', sans-serif;
+        }
+        button:hover { background: #0a3fa8; transform: translateY(-2px); }
+        button.secondary { background: #FFD700; color: #000; }
+        button.secondary:hover { background: #FFA500; }
+        canvas { display: none; }
+    </style>
+</head>
+<body>
+    <h1>مصدّر شعار ميزو (MEZO)</h1>
+    
+    <div class="logo-container" id="logo-preview">
+        <!-- SVG will be loaded here -->
+    </div>
+
+    <div class="buttons">
+        <button onclick="downloadLogo('logo.svg', 512, 'mezo-logo-512.png')">تحميل PNG - 512px</button>
+        <button onclick="downloadLogo('logo.svg', 1024, 'mezo-logo-1024.png')">تحميل PNG - 1024px</button>
+        <button class="secondary" onclick="downloadLogo('app-icon.svg', 1024, 'mezo-app-icon-1024.png')">تحميل أيقونة المتجر - 1024px</button>
+    </div>
+
+    <script>
+        async function loadSVG(filename) {
+            const response = await fetch(filename);
+            return await response.text();
+        }
+
+        async function init() {
+            const svgCode = await loadSVG('logo.svg');
+            document.getElementById('logo-preview').innerHTML = svgCode;
+            const svgElement = document.querySelector('svg');
+            svgElement.style.width = '300px';
+            svgElement.style.height = '300px';
+        }
+
+        async function downloadLogo(filename, size, downloadName) {
+            const svgCode = await loadSVG(filename);
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            const img = new Image();
+            const svgBlob = new Blob([svgCode], {type: 'image/svg+xml;charset=utf-8'});
+            const url = URL.createObjectURL(svgBlob);
+            
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0, size, size);
+                const link = document.createElement('a');
+                link.download = downloadName;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                URL.revokeObjectURL(url);
+            };
+            img.src = url;
+        }
+
+        init();
+    </script>
+</body>
+</html>

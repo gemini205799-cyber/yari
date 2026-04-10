@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEZO - الرئيسية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #14b8a6; /* Teal 500 */
+            --primary-dark: #0d9488;
+            --primary-light: #2dd4bf;
+            --gold: #FFD700;
+            --gold-dark: #FFA500;
+            --red: #FF3B30;
+            --green: #34C759;
+            --purple: #8E2DE2;
+            --pink: #f953c6;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 30px;
+            --shadow: 0 8px 24px rgba(20, 184, 166, 0.2);
+            --shadow-card: 0 4px 16px rgba(0,0,0,0.3);
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #020617;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 390px;
+            background-color: var(--bg);
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        /* Header */
+        header {
+            background: #1e293b;
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom-left-radius: var(--radius-md);
+            border-bottom-right-radius: var(--radius-md);
+            box-shadow: var(--shadow);
+            z-index: 10;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .coins {
+            background: rgba(20, 184, 166, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+            color: #2dd4bf;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            background: #ddd;
+            overflow: hidden;
+        }
+
+        .mini-logo {
+            text-align: center;
+            padding: 10px 0;
+            font-family: 'Fredoka One', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+
+        .mini-logo span:nth-child(1) { color: var(--red); }
+        .mini-logo span:nth-child(2) { color: var(--green); }
+        .mini-logo span:nth-child(3) { color: var(--primary); }
+        .mini-logo span:nth-child(4) { color: var(--gold); }
+
+        /* Banner */
+        .welcome-banner {
+            margin: 15px;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(45deg, #0d9488, #14b8a6, #0d9488);
+            background-size: 200% 200%;
+            color: white;
+            animation: gradientShift 5s ease infinite;
+            box-shadow: var(--shadow);
+        }
+
+        .welcome-banner h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .welcome-banner p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            padding: 0 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-wrapper {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border);
+        }
+
+        .search-wrapper i {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .search-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* Rooms Section */
+        .section-title {
+            padding: 0 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 0 15px 100px 15px;
+        }
+
+        .room-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid var(--border);
+        }
+
+        .room-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .room-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            background: #2d3748;
+        }
+
+        .room-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .room-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .room-count {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .join-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 20px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top-left-radius: var(--radius-lg);
+            border-top-right-radius: var(--radius-lg);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+            border-top: 1px solid var(--border);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-secondary);
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            font-size: 22px;
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: absolute;
+            bottom: 80px;
+            left: 20px;
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .fab:hover {
+            transform: rotate(45deg) scale(1.1);
+            box-shadow: 0 12px 32px rgba(20, 184, 166, 0.4);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(26, 111, 212, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(26, 111, 212, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(26, 111, 212, 0); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Staggered animation for cards */
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="coins">🏅 1,250 عملة</div>
+            <div class="avatar">
+                <img src="https://picsum.photos/seed/user1/100/100" alt="Avatar" width="40" height="40">
+            </div>
+        </header>
+
+        <div class="mini-logo">
+            <span>M</span><span>E</span><span>Z</span><span>O</span>
+        </div>
+
+        <div class="welcome-banner">
+            <h2>🌟 مرحباً في MEZO!</h2>
+            <p>تعرّف على أصدقاء جدد وشارك في غرف الدردشة الصوتية الممتعة.</p>
+        </div>
+
+        <div class="search-container">
+            <div class="search-wrapper">
+                <i>🔍</i>
+                <input type="text" class="search-input" id="roomSearch" placeholder="ابحث عن غرفة أو موضوع...">
+            </div>
+        </div>
+
+        <div class="section-title">الغرف النشطة 🔥</div>
+
+        <div class="rooms-grid">
+            <!-- Music -->
+            <div class="room-card">
+                <div class="room-icon" style="background: linear-gradient(to bottom, #8E2DE2, #4A00E0);">🎵</div>
+                <div class="room-name">موسيقى</div>
+                <div class="room-count">24 شخص</div>
+                <button class="join-btn">انضم</button>
+            </div>
+            <!-- Sports -->
+            <div class="room-card">
+                <div class="room-icon" style="background: linear-gradient(to bottom, #11998e, #38ef7d);">⚽</div>
+                <div class="room-name">رياضة</div>
+                <div class="room-count">18 شخص</div>
+                <button class="join-btn">انضم</button>
+            </div>
+            <!-- Love -->
+            <div class="room-card">
+                <div class="room-icon" style="background: linear-gradient(to bottom, #f953c6, #b91d73);">💘</div>
+                <div class="room-name">حب</div>
+                <div class="room-count">31 شخص</div>
+                <button class="join-btn">انضم</button>
+            </div>
+            <!-- Games -->
+            <div class="room-card">
+                <div class="room-icon" style="background: linear-gradient(to bottom, #f7971e, #ffd200);">🎮</div>
+                <div class="room-name">ألعاب</div>
+                <div class="room-count">45 شخص</div>
+                <button class="join-btn">انضم</button>
+            </div>
+            <!-- Singing -->
+            <div class="room-card">
+                <div class="room-icon" style="background: linear-gradient(to bottom, #1a6fd4, #00c6ff);">🎤</div>
+                <div class="room-name">غناء</div>
+                <div class="room-count">12 شخص</div>
+                <button class="join-btn">انضم</button>
+            </div>
+            <!-- Discussion -->
+            <div class="room-card">
+                <div class="room-icon" style="background: linear-gradient(to bottom, #ff416c, #ff4b2b);">💬</div>
+                <div class="room-name">نقاش</div>
+                <div class="room-count">8 أشخاص</div>
+                <button class="join-btn">انضم</button>
+            </div>
+            <!-- Tech -->
+            <div class="room-card">
+                <div class="room-icon" style="background: linear-gradient(to bottom, #2193b0, #6dd5ed);">💻</div>
+                <div class="room-name">تقنية</div>
+                <div class="room-count">15 شخص</div>
+                <button class="join-btn">انضم</button>
+            </div>
+            <!-- Art -->
+            <div class="room-card">
+                <div class="room-icon" style="background: linear-gradient(to bottom, #ee0979, #ff6a00);">🎨</div>
+                <div class="room-name">فنون</div>
+                <div class="room-count">5 أشخاص</div>
+                <button class="join-btn">انضم</button>
+            </div>
+            <!-- Education -->
+            <div class="room-card">
+                <div class="room-icon" style="background: linear-gradient(to bottom, #56ab2f, #a8e063);">📚</div>
+                <div class="room-name">تعليم</div>
+                <div class="room-count">20 شخص</div>
+                <button class="join-btn">انضم</button>
+            </div>
+            <!-- Travel -->
+            <div class="room-card">
+                <div class="room-icon" style="background: linear-gradient(to bottom, #4568dc, #b06ab3);">✈️</div>
+                <div class="room-name">سفر</div>
+                <div class="room-count">10 أشخاص</div>
+                <button class="join-btn">انضم</button>
+            </div>
+        </div>
+
+        <div class="fab">+</div>
+
+        <nav class="bottom-nav">
+            <div class="nav-item active">
+                <i>🏠</i>
+                <span>الرئيسية</span>
+            </div>
+            <div class="nav-item">
+                <i>🚪</i>
+                <span>الغرف</span>
+            </div>
+            <div class="nav-item">
+                <i>🎁</i>
+                <span>الهدايا</span>
+            </div>
+            <div class="nav-item">
+                <i>👥</i>
+                <span>أصدقاء</span>
+            </div>
+            <div class="nav-item">
+                <i>👤</i>
+                <span>ملفي</span>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        // Add a small delay based on index for staggered effect
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, index * 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.room-card').forEach(card => {
+                observer.observe(card);
+            });
+
+            // Search filtering logic
+            const searchInput = document.getElementById('roomSearch');
+            const roomCards = document.querySelectorAll('.room-card');
+
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                roomCards.forEach(card => {
+                    const name = card.querySelector('.room-name').textContent.toLowerCase();
+                    const icon = card.querySelector('.room-icon').textContent.toLowerCase(); // Some topics are in icons or names
+                    
+                    if (name.includes(term)) {
+                        card.style.display = 'flex';
+                        // Re-trigger animation if it wasn't visible
+                        if (!card.classList.contains('visible')) {
+                            card.classList.add('visible');
+                        }
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

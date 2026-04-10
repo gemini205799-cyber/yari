@@ -1,0 +1,70 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Represents a user in the MEZO platform.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique identifier for the user." },
+        "name": { "type": "string", "description": "Display name of the user." },
+        "avatar": { "type": "string", "description": "URL to the user's avatar image." },
+        "level": { "type": "number", "description": "User's experience level." },
+        "coins_balance": { "type": "number", "description": "Current balance of virtual coins." },
+        "bio": { "type": "string", "description": "User's biography or status message." },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "User's role for access control." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the user was created." }
+      },
+      "required": ["uid", "name", "level", "coins_balance", "role"]
+    },
+    "Room": {
+      "title": "Room",
+      "description": "Represents a voice chat room.",
+      "type": "object",
+      "properties": {
+        "roomId": { "type": "string", "description": "Unique identifier for the room." },
+        "title": { "type": "string", "description": "Title of the room." },
+        "ownerId": { "type": "string", "description": "UID of the user who owns the room." },
+        "topic": { "type": "string", "description": "The topic or category of the room." },
+        "type": { "type": "string", "enum": ["public", "followers", "private"], "description": "Visibility type of the room." },
+        "avatar": { "type": "string", "description": "URL to the room's avatar image." },
+        "level": { "type": "number", "description": "Room's level or popularity." },
+        "country": { "type": "string", "description": "Country code for the room." },
+        "desc": { "type": "string", "description": "Short description of the room." },
+        "password": { "type": "string", "description": "Optional password for private rooms." },
+        "memberCount": { "type": "number", "description": "Number of users currently in the room." },
+        "activeSpeakers": { "type": "array", "description": "List of UIDs currently speaking or on seats." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the room was created." }
+      },
+      "required": ["title", "ownerId", "topic", "type", "memberCount", "activeSpeakers"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Represents a gift or coin transaction.",
+      "type": "object",
+      "properties": {
+        "transactionId": { "type": "string", "description": "Unique identifier for the transaction." },
+        "senderId": { "type": "string", "description": "UID of the user sending the gift/coins." },
+        "receiverId": { "type": "string", "description": "UID of the user receiving the gift/coins." },
+        "giftId": { "type": "string", "description": "ID of the gift sent." },
+        "amount": { "type": "number", "description": "Value of the transaction in coins." },
+        "roomId": { "type": "string", "description": "ID of the room where the gift was sent." },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the transaction occurred." }
+      },
+      "required": ["transactionId", "senderId", "receiverId", "amount", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents."
+    },
+    "/rooms/{roomId}": {
+      "schema": "Room",
+      "description": "Voice chat room documents."
+    },
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Transaction logs for gifts and coin transfers."
+    }
+  }
+}

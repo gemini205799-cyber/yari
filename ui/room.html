@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEZO - غرفة الموسيقى</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a6fd4;
+            --primary-dark: #0a3fa8;
+            --gold: #FFD700;
+            --red: #FF3B30;
+            --green: #34C759;
+            --bg: #f0f4ff;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #666;
+            --radius-md: 20px;
+            --radius-lg: 30px;
+            --shadow: 0 8px 24px rgba(26, 111, 212, 0.2);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #e0e7ff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 390px;
+            background-color: var(--bg);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 50px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        header {
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn { font-size: 24px; cursor: pointer; }
+        .room-title { font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+        .lock-icon { color: var(--text-secondary); }
+
+        .topic-tag {
+            background: #f0f0f0;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--primary);
+            align-self: flex-start;
+        }
+
+        /* Speakers Section */
+        .speakers-section {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .section-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .speakers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .speaker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .avatar-container {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #eee;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .talking .avatar-container::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid var(--green);
+            animation: soundWave 1s infinite;
+        }
+
+        .mute-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .speaker-name { font-size: 13px; font-weight: 500; }
+
+        .empty-seat {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Listeners Section */
+        .listeners-section {
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .listeners-list {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .listener-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: #ddd;
+        }
+
+        /* Gifts Section */
+        .gifts-section {
+            padding: 15px 20px;
+            background: white;
+            border-top-left-radius: var(--radius-lg);
+            border-top-right-radius: var(--radius-lg);
+        }
+
+        .gifts-scroll {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .gift-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-width: 60px;
+        }
+
+        .gift-icon {
+            width: 50px;
+            height: 50px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 1px solid #eee;
+        }
+
+        .gift-price { font-size: 12px; font-weight: bold; color: var(--gold-dark); }
+
+        /* Action Bar */
+        .action-bar {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .btn-talk { background: var(--primary); color: white; }
+        .btn-talk.muted { background: var(--red); }
+        .btn-gift { background: var(--gold); color: #000; padding: 10px 15px; }
+        .btn-exit { background: #fee2e2; color: var(--red); }
+
+        /* Animations */
+        @keyframes soundWave {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="header-top">
+                <div class="back-btn">→</div>
+                <div class="room-title">🎵 غرفة الموسيقى <span class="lock-icon">🔒</span></div>
+                <div></div>
+            </div>
+            <div class="topic-tag">#موسيقى_عربية</div>
+        </header>
+
+        <div class="speakers-section">
+            <div class="section-label">المضيفون والمتحدثون</div>
+            <div class="speakers-grid">
+                <!-- Ahmad (Talking) -->
+                <div class="speaker talking">
+                    <div class="avatar-container">
+                        <img src="https://picsum.photos/seed/ahmad/100/100" class="avatar-img" alt="Ahmad">
+                    </div>
+                    <div class="speaker-name">أحمد 🎙️</div>
+                </div>
+                <!-- Sarah (Muted) -->
+                <div class="speaker">
+                    <div class="avatar-container">
+                        <img src="https://picsum.photos/seed/sarah/100/100" class="avatar-img" alt="Sarah">
+                        <div class="mute-icon">🔇</div>
+                    </div>
+                    <div class="speaker-name">سارة</div>
+                </div>
+                <!-- Empty Seat -->
+                <div class="speaker">
+                    <div class="empty-seat">+</div>
+                    <div class="speaker-name">انضم</div>
+                </div>
+                <!-- Ali -->
+                <div class="speaker">
+                    <div class="avatar-container">
+                        <img src="https://picsum.photos/seed/ali/100/100" class="avatar-img" alt="Ali">
+                    </div>
+                    <div class="speaker-name">علي</div>
+                </div>
+                <!-- Layla -->
+                <div class="speaker">
+                    <div class="avatar-container">
+                        <img src="https://picsum.photos/seed/layla/100/100" class="avatar-img" alt="Layla">
+                    </div>
+                    <div class="speaker-name">ليلى</div>
+                </div>
+                <!-- Empty Seat -->
+                <div class="speaker">
+                    <div class="empty-seat">+</div>
+                    <div class="speaker-name">انضم</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="listeners-section">
+            <div class="section-label">المستمعون (32)</div>
+            <div class="listeners-list">
+                <img src="https://picsum.photos/seed/l1/50/50" class="listener-avatar">
+                <img src="https://picsum.photos/seed/l2/50/50" class="listener-avatar">
+                <img src="https://picsum.photos/seed/l3/50/50" class="listener-avatar">
+                <img src="https://picsum.photos/seed/l4/50/50" class="listener-avatar">
+                <img src="https://picsum.photos/seed/l5/50/50" class="listener-avatar">
+                <img src="https://picsum.photos/seed/l6/50/50" class="listener-avatar">
+                <img src="https://picsum.photos/seed/l7/50/50" class="listener-avatar">
+                <img src="https://picsum.photos/seed/l8/50/50" class="listener-avatar">
+            </div>
+        </div>
+
+        <div class="gifts-section">
+            <div class="section-label">🎁 الهدايا</div>
+            <div class="gifts-scroll">
+                <div class="gift-item">
+                    <div class="gift-icon">🌹</div>
+                    <div class="gift-price">10</div>
+                </div>
+                <div class="gift-item">
+                    <div class="gift-icon">💎</div>
+                    <div class="gift-price">50</div>
+                </div>
+                <div class="gift-item">
+                    <div class="gift-icon">🚀</div>
+                    <div class="gift-price">100</div>
+                </div>
+                <div class="gift-item">
+                    <div class="gift-icon">👑</div>
+                    <div class="gift-price">500</div>
+                </div>
+                <div class="gift-item">
+                    <div class="gift-icon">🦁</div>
+                    <div class="gift-price">1000</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-bar">
+            <button class="action-btn btn-talk">🎙️ تحدث</button>
+            <button class="action-btn btn-gift">🎁</button>
+            <button class="action-btn btn-exit">🚪 خروج</button>
+        </div>
+    </div>
+</body>
+</html>
